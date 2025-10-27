@@ -1,0 +1,112 @@
+programa ejemplo
+procesos
+  proceso asignarId
+  comenzar
+    EnviarMensaje(1, r1)
+    EnviarMensaje(2, r2)
+    EnviarMensaje(3, r3)
+    EnviarMensaje(4, r4)
+    EnviarMensaje(5, r5)
+    EnviarMensaje(6, r6)                
+  fin
+  proceso juntarFlores (ES cantFlores : numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      cantFlores := cantFlores + 1
+  fin
+  
+  proceso recorrerAvenida(ES cantFlores : numero)
+  comenzar
+    repetir 9
+      juntarFlores(cantFlores)
+      mover
+    juntarFlores(cantFlores)
+  fin
+  
+  proceso actualizarMax (E cantFlores : numero ; ES max : numero;E id : numero; ES idMax : numero) 
+  comenzar
+    si (cantFlores > max)
+      idMax := id
+      max := cantFlores
+  fin
+areas
+  area1 : AreaP (1,1,1,10)
+  area2 : AreaP (2,11,2,20)
+  area3 : AreaP(3,21,3,30)
+  area4 : AreaP(4,31,4,40)
+  area5 : AreaP(5,41,5,50)
+  area6 : AreaP(6,51,6,60)
+  areaFiscal : AreaP (2,1,2,1)
+  
+robots
+  robot robot1
+  variables
+    flores, id : numero
+  comenzar
+    flores := 0
+    RecibirMensaje(id, rFiscal)
+       
+    recorrerAvenida(flores)
+    EnviarMensaje(id, rFiscal )
+    EnviarMensaje(flores, rFiscal)
+  fin
+  
+  
+  robot fiscal
+  variables
+    cantFlores, max, id, idMax: numero
+  comenzar
+    max := 0
+    idMax := 0
+    asignarId
+    repetir 6
+      RecibirMensaje(id,*)
+      si (id = 1)
+        RecibirMensaje(cantFlores,*)
+      sino
+        si (id = 2)
+          RecibirMensaje(cantFlores,*)
+        sino
+          si (id= 3)
+            RecibirMensaje(cantFlores,*)
+          sino 
+            si (id = 4)
+              RecibirMensaje(cantFlores,*)
+            sino
+              si (id = 5)                            
+                RecibirMensaje(cantFlores,*)
+              sino
+                RecibirMensaje(cantFlores,*)  
+      si (cantFlores <> 0)
+        actualizarMax(cantFlores, max, id,idMax)
+    si (idMax = 0)
+      Informar('empate total',0)
+    sino  
+      Informar (idMax, max)        
+  fin
+  
+  
+    
+variables
+  r1, r2, r3, r4, r5, r6 : robot1
+  rFiscal : fiscal
+
+comenzar
+  AsignarArea(r1,area1)
+  AsignarArea(r2, area2)
+  AsignarArea(r3, area3)
+  AsignarArea(r4, area4)
+  AsignarArea(r5, area5)
+  AsignarArea(r6, area6)
+  
+  AsignarArea(rFiscal, areaFiscal)
+  Iniciar(rFiscal, 2, 1)
+      
+  Iniciar(r1,1,1)
+  Iniciar(r2,2,11)
+  Iniciar(r3,3,21)
+  Iniciar(r4,4,31)
+  Iniciar(r5,5,41)
+  Iniciar(r6,6,51)        
+fin
