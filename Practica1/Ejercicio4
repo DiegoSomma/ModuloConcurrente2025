@@ -17,7 +17,7 @@ procesos
   variables
     avenida : numero
   comenzar
-    repetir 2
+    repetir 24
       avenida := PosAv
       repetir 99
         juntarFlores
@@ -35,7 +35,7 @@ procesos
   variables
     avenida : numero
   comenzar
-    repetir 2
+    repetir 24
       avenida := PosAv
       repetir 99
         juntarPapeles
@@ -51,10 +51,10 @@ procesos
   fin
   
 areas
-  area1 : AreaP (23,1,25,100)
-  area2 : AreaP (48,1,50,100)  
-  area3 : AreaP (73,1,75,100)        
-  area4 : AreaP (98,1,100,100)    
+  area1 : AreaP (1,1,25,100)
+  area2 : AreaP (26,1,50,100)  
+  area3 : AreaP (51,1,75,100)        
+  area4 : AreaP (76,1,100,100)    
   
 robots
   robot robotImpar
@@ -79,10 +79,10 @@ comenzar
   AsignarArea(r3, area3)
   AsignarArea(r4, area4)
   
-  Iniciar(r1,23,1)
-  Iniciar(r2,48,1)
-  Iniciar(r3,73,1)
-  Iniciar(r4,98,1)      
+  Iniciar(r1,1,1)
+  Iniciar(r2,26,1)
+  Iniciar(r3,51,1)
+  Iniciar(r4,76,1)      
    
   
         
