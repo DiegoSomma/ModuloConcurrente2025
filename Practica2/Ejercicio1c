@@ -32,7 +32,7 @@ areas
 robots
   robot robot1
   variables
-    flores, id : numero
+    flores : numero
   comenzar
     flores := 0   
     recorrerAvenida(flores)
