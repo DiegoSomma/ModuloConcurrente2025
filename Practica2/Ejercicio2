@@ -1,0 +1,98 @@
+programa ejercicio2
+
+procesos
+  proceso orientarRobot (E veces : numero)
+  comenzar
+    repetir veces
+      derecha
+  fin
+
+
+  proceso contarFlores (ES flores : numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      flores := flores + 1
+  fin
+  
+  proceso contarPapeles (ES papeles : numero)
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+      papeles := papeles + 1
+  fin 
+  
+  proceso escalon (E ancho : numero ; E alto : numero ; ES flores : numero ; ES papeles : numero)
+  comenzar
+    repetir alto
+      contarFlores(flores)
+      contarPapeles(papeles)
+      mover
+    contarFlores(flores)
+    contarPapeles(papeles)    
+    derecha
+    repetir ancho
+      mover
+      contarFlores(flores)
+      contarPapeles(papeles)       
+  fin
+  
+  
+areas
+  ciudad : AreaC (2,1,100,100)
+  areaJefe : AreaP(1,1,1,1)
+
+
+robots
+  robot robot1
+  variables
+    flores, papeles, ancho, alto,conteoEscalones : numero
+  comenzar
+    ancho := 1
+    repetir 4
+      flores := 0
+      papeles := 0
+      Random(alto,1,1)
+      escalon(ancho, alto, flores, papeles)
+      orientarRobot(3)
+      si (flores > papeles)
+        conteoEscalones := conteoEscalones + 1
+    EnviarMensaje(conteoEscalones, rJefe)    
+  fin
+  
+  robot robotJefe
+  variables
+    sumaTotal, cantParcial : numero
+  comenzar
+    sumaTotal := 0
+    repetir 3
+      RecibirMensaje(cantParcial, *)
+      sumaTotal := sumaTotal + cantParcial
+    Informar('cant_total',sumaTotal)
+  fin
+variables
+  r1 : robot1
+  r2 : robot1
+  r3 : robot1
+  rJefe : robotJefe
+  
+comenzar
+  AsignarArea(r1,ciudad)
+  AsignarArea(r2,ciudad)
+  AsignarArea(r3,ciudad)
+  AsignarArea(rJefe, areaJefe)
+   
+  Iniciar(rJefe,1,1)      
+  Iniciar(r1,2,1)
+  Iniciar(r2,7,1)
+  Iniciar(r3,12,1)
+ 
+fin  
+  
+  
+  
+  
+  
+  
+  
+  
