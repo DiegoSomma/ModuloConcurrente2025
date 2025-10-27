@@ -60,39 +60,31 @@ robots
   robot robotImpar
   comenzar
     recorrerAreaImpar
+    Pos(51,1)
+    recorrerAreaImpar    
   fin
 
   robot robotPar
   comenzar
     recorrerAreaPar
+    Pos(76,1)
+    recorrerAreaPar    
   fin  
   
 variables
   r1: robotImpar
   r2: robotPar
-  r3: robotImpar
-  r4: robotPar      
 
 comenzar
   AsignarArea(r1, area1)
   AsignarArea(r2, area2)
-  AsignarArea(r3, area3)
-  AsignarArea(r4, area4)
+  AsignarArea(r1, area3)
+  AsignarArea(r2, area4)
   
   Iniciar(r1,1,1)
   Iniciar(r2,26,1)
-  Iniciar(r3,51,1)
-  Iniciar(r4,76,1)      
+
    
   
         
-fin      
-  
-  
-  
-  
-  
-  
-   
-  
-      
+fin
