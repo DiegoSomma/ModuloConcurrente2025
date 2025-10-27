@@ -1,0 +1,83 @@
+programa ejercicio3
+
+procesos
+  proceso juntarPapeles (ES papeles : numero)
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+      papeles := papeles + 1
+  fin
+  
+  proceso recorrerEsquinas(ES papeles : numero)
+  comenzar
+    derecha
+    repetir 9
+      juntarPapeles(papeles)
+      mover
+    juntarPapeles(papeles)
+  fin
+  
+areas
+  areaA1 : AreaP (1,1,10,1)
+  areaA2 : AreaP (11,1,20,1)  
+  areaB1 : AreaP (1,2,10,2)
+  areaB2 : AreaP (11,2,20,2)    
+ 
+ 
+robots
+  robot robotA1
+  variables
+    cantPapeles : numero
+  comenzar
+    cantPapeles := 0
+    recorrerEsquinas(cantPapeles)
+    EnviarMensaje(cantPapeles,rA2) 
+  fin 
+  
+  robot robotA2
+  variables
+    cantPapeles : numero
+  comenzar
+    RecibirMensaje(cantPapeles, rA1)
+    recorrerEsquinas(cantPapeles)
+    Informar('totalPapeles_A',cantPapeles)
+  fin
+  
+  robot robotB1
+  variables
+    cantPapeles : numero
+  comenzar
+    cantPapeles := 0
+    recorrerEsquinas(cantPapeles)
+    EnviarMensaje(cantPapeles,rB2) 
+  fin 
+  
+  robot robotB2
+  variables
+    cantPapeles : numero
+  comenzar
+    RecibirMensaje(cantPapeles, rB1)
+    recorrerEsquinas(cantPapeles)
+    Informar('totalPapeles_B',cantPapeles)
+  fin  
+  
+  
+  
+  
+variables
+  rA1 : robotA1
+  rA2 : robotA2
+  rB1 : robotB1
+  rB2 : robotB2
+  
+comenzar
+  AsignarArea(rA1, areaA1)
+  AsignarArea(rA2, areaA2)
+  AsignarArea(rB1, areaB1)
+  AsignarArea(rB2, areaB2)    
+  Iniciar(rA1,1,1)
+  Iniciar(rA2,11,1)
+  Iniciar(rB1,1,2)
+  Iniciar(rB2,11,2)  
+  
+fin 
