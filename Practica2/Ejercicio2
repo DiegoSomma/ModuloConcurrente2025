@@ -52,7 +52,7 @@ robots
     repetir 4
       flores := 0
       papeles := 0
-      Random(alto,1,1)
+      Random(alto,1,5)
       escalon(ancho, alto, flores, papeles)
       orientarRobot(3)
       si (flores > papeles)
