@@ -24,7 +24,7 @@ areas
 robots
   robot robot1
   variables
-    flores, id : numero
+    flores : numero
   comenzar
     flores := 0   
     recorrerAvenida(flores)
@@ -34,7 +34,7 @@ robots
   
   robot fiscal
   variables
-    cantFloresR1, cantFloresR2,id : numero
+    cantFloresR1, cantFloresR2: numero
   comenzar
     RecibirMensaje(cantFloresR1,*)  
     RecibirMensaje(cantFloresR2,*)
