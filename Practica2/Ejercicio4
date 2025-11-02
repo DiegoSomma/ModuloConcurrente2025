@@ -9,7 +9,7 @@ procesos
     EnviarMensaje(4, r4)            
   fin
   
-  proceso informarGanador
+  proceso posicionarGanador
   variables
     idMax, cantMax, idAct, cantAct : numero
   comenzar
@@ -29,8 +29,35 @@ procesos
             RecibirMensaje(cantAct, r4)
       si(cantAct > cantMax)
         cantMax := cantAct
-        idMax := idAct        
-    Informar('ganador_robot ' ,idMax)  
+        idMax := idAct
+    Informar('ganador_robot ', idMax)
+                
+    si(idMax = 1)
+      EnviarMensaje(V,r1)
+      EnviarMensaje(F,r2)
+      EnviarMensaje(F,r3)
+      EnviarMensaje(F,r4)
+    sino
+      si (idMax = 2)  
+        EnviarMensaje(V,r2)
+        EnviarMensaje(F,r1)
+        EnviarMensaje(F,r3)
+        EnviarMensaje(F,r4)
+      sino
+        si(idMax = 3)  
+          EnviarMensaje(V,r3)
+          EnviarMensaje(F,r1)
+          EnviarMensaje(F,r2)
+          EnviarMensaje(F,r4)
+        sino
+          EnviarMensaje(V,r4)
+          EnviarMensaje(F,r1)
+          EnviarMensaje(F,r3)
+          EnviarMensaje(F,r4)      
+        
+        
+        
+                
   fin
   
   proceso finalizarRobots
@@ -122,7 +149,10 @@ robots
         
     EnviarMensaje(id, rFiscal)
     total := cantFlores + cantPapeles
-    EnviarMensaje(total, rFiscal)    
+    EnviarMensaje(total, rFiscal)
+    RecibirMensaje(ganador,rFiscal)
+    si (ganador)
+      Pos(50,50)  
   fin
 
   robot fiscal
@@ -136,7 +166,7 @@ robots
       avisoAleatorio(num)
       RecibirMensaje(listo, *)
     finalizarRobots
-    informarGanador
+    posicionarGanador
   fin
   
 variables
