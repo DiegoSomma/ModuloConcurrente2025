@@ -52,8 +52,8 @@ procesos
         sino
           EnviarMensaje(V,r4)
           EnviarMensaje(F,r1)
-          EnviarMensaje(F,r3)
-          EnviarMensaje(F,r4)      
+          EnviarMensaje(F,r2)
+          EnviarMensaje(F,r3)      
         
         
         
