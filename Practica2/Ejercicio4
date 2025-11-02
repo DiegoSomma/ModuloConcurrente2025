@@ -1,0 +1,170 @@
+programa ejercicio4
+
+procesos
+  proceso asignarIds
+  comenzar
+    EnviarMensaje(1, r1)
+    EnviarMensaje(2, r2)
+    EnviarMensaje(3, r3)
+    EnviarMensaje(4, r4)            
+  fin
+  
+  proceso informarGanador
+  variables
+    idMax, cantMax, idAct, cantAct : numero
+  comenzar
+    idMax := -1
+    cantMax := -1
+    repetir 4
+      RecibirMensaje(idAct, *)
+      si (idAct = 1)
+        RecibirMensaje(cantAct, r1)
+      sino
+        si (idAct = 2)
+          RecibirMensaje(cantAct, r2)
+        sino
+          si (idAct = 3)
+            RecibirMensaje(cantAct, r3)
+          sino
+            RecibirMensaje(cantAct, r4)
+      si(cantAct > cantMax)
+        cantMax := cantAct
+        idMax := idAct        
+    Informar('ganador_robot ' ,idMax)  
+  fin
+  
+  proceso finalizarRobots
+  comenzar
+    EnviarMensaje(F, r1)
+    EnviarMensaje(F, r2)
+    EnviarMensaje(F, r3)
+    EnviarMensaje(F, r4)      
+  fin
+  
+  proceso avisoAleatorio(E id : numero)
+  comenzar
+    si (id = 1)
+      EnviarMensaje(V, r1)
+    sino 
+      si (id = 2) 
+        EnviarMensaje(V, r2)
+      sino 
+        si (id = 3)
+          EnviarMensaje(V, r3)
+        sino
+          EnviarMensaje(V, r4)  
+  fin
+  
+  proceso avenidaYcalleRandom(ES avenida : numero ; ES calle : numero)
+  variables
+    ave : numero 
+    cal : numero
+  comenzar
+    Random(ave, 25,75)
+    Random(cal, 25,75)    
+    avenida := ave
+    calle := cal
+  fin
+  
+  proceso irEsquina(E avenida : numero ; E calle : numero)
+  comenzar
+    Pos(avenida, calle)
+  fin
+  
+  proceso juntarFloresPapeles(ES flores : numero ; ES papeles : numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      flores := flores + 1
+
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+      papeles := papeles + 1      
+  fin
+  
+areas
+  cuadrante : AreaPC(25,25,75,75)
+  areaR1 : AreaP (25,1,25,1)
+  areaR2 : AreaP (30,1,30,1)
+  areaR3 : AreaP (35,1,35,1)
+  areaR4 : AreaP (40,1,40,1)
+  areaFiscal : AreaP(1,1,1,1)
+  
+robots 
+  robot recolector
+  variables
+    calleIni : numero
+    aveIni : numero
+    cantFlores : numero
+    cantPapeles : numero
+    id : numero
+    puede : boolean
+    ave : numero
+    cal : numero
+    ganador : boolean
+    total : numero
+  comenzar
+    puede := V
+    calleIni := PosCa
+    aveIni := PosAv
+    cantFlores := 0
+    cantPapeles := 0
+    RecibirMensaje(id, rFiscal)
+    
+    mientras (puede)
+      RecibirMensaje(puede, rFiscal)
+      si (puede)
+        avenidaYcalleRandom(ave,cal)
+        irEsquina(ave,cal)
+        juntarFloresPapeles(cantFlores, cantPapeles)
+        Pos(aveIni, calleIni)
+        EnviarMensaje(V, rFiscal)
+        
+    EnviarMensaje(id, rFiscal)
+    total := cantFlores + cantPapeles
+    EnviarMensaje(total, rFiscal)    
+  fin
+
+  robot fiscal
+  variables
+    num : numero
+    listo : boolean
+  comenzar
+    asignarIds
+    repetir 10
+      Random(num, 1, 4)
+      avisoAleatorio(num)
+      RecibirMensaje(listo, *)
+    finalizarRobots
+    informarGanador
+  fin
+  
+variables
+  r1 : recolector
+  r2 : recolector
+  r3 : recolector
+  r4 : recolector
+  rFiscal : fiscal
+
+
+
+comenzar
+  AsignarArea(r1, cuadrante)
+  AsignarArea(r2, cuadrante)
+  AsignarArea(r3, cuadrante)
+  AsignarArea(r4, cuadrante)     
+
+
+  AsignarArea(r1, areaR1)
+  AsignarArea(r2, areaR2)
+  AsignarArea(r3, areaR3)
+  AsignarArea(r4, areaR4)   
+  AsignarArea(rFiscal, areaFiscal) 
+  
+  
+  Iniciar(r1, 25, 1)
+  Iniciar(r2, 30, 1) 
+  Iniciar(r3, 35, 1) 
+  Iniciar(r4, 40, 1)
+  Iniciar(rFiscal, 1, 1) 
+fin  
