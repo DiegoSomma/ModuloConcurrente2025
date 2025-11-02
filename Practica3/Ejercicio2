@@ -1,0 +1,136 @@
+
+programa ejercicio2
+procesos
+  proceso girarRobot(E veces : numero)
+  comenzar
+    repetir veces 
+      derecha
+  fin
+
+  proceso recorrerEscalonF(E veces: numero; E giros: numero;ES flores: numero)
+  comenzar
+    repetir veces
+      mover
+    girarRobot(giros)
+    juntarFlores(flores)
+    repetir veces
+      mover    
+    juntarFlores(flores)      
+  fin
+  
+  proceso recorrerEscalonP(E veces: numero; E giros: numero;ES papeles: numero)
+  comenzar
+    repetir veces
+      mover
+    girarRobot(giros)
+    juntarPapeles(papeles)
+    repetir veces
+      mover    
+    juntarPapeles(papeles)      
+  fin  
+  
+  proceso juntarFlores(ES flores : numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      flores := flores + 1
+  fin
+  
+  proceso juntarPapeles(ES papeles : numero)
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+      papeles := papeles + 1
+  fin  
+  
+  
+areas
+  ciudad: AreaC (1,1,100,100)
+
+robots
+  robot robot1
+  variables
+    flores : numero
+    veces : numero
+  comenzar
+    flores := 0
+    veces := 5
+    repetir 4
+      recorrerEscalonF(veces,1, flores)
+      girarRobot(3)
+      veces := veces - 1
+      
+    mover
+    girarRobot(1)
+    
+    BloquearEsquina(15,16)
+    mover
+    girarRobot(2)
+    mover
+    LiberarEsquina(15,16)
+    
+    repetir 4
+      veces := veces + 1
+      recorrerEscalonF(veces, 1,flores)
+      girarRobot(3)      
+    EnviarMensaje(1, rF)   
+  fin
+
+  robot robot2
+  variables
+    papeles : numero
+    veces : numero
+  comenzar
+    papeles := 0
+    veces := 5
+    repetir 4
+      recorrerEscalonP(veces,3,papeles)
+      girarRobot(1)
+      veces := veces - 1
+    
+ 
+    mover
+    girarRobot(3)
+    
+    BloquearEsquina(15,16)     
+    mover
+    girarRobot(2)
+    mover
+    LiberarEsquina(15,16)
+        
+    repetir 4
+      veces := veces + 1
+      recorrerEscalonP(veces, 3,papeles)
+
+      girarRobot(1)      
+    
+    EnviarMensaje(2, rF)        
+  fin
+
+  robot fiscal
+  variables
+    id : numero
+  comenzar
+    repetir 2
+      RecibirMensaje(id, *)
+    si (id = 1)
+      Informar('gano_el_robot', 2)
+    sino
+      Informar ('gano_el_robot', 1)
+  fin
+
+
+variables
+  r1 : robot1
+  r2 : robot2
+  rF : fiscal
+  
+comenzar
+  AsignarArea(r1, ciudad)
+  AsignarArea(r2, ciudad)
+  AsignarArea(rF, ciudad)
+  
+  Iniciar(r1, 1,1)
+  Iniciar(r2, 31,1)  
+  Iniciar(rF, 15,1)
+fin
