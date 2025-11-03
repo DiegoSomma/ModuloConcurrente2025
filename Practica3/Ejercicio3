@@ -1,0 +1,144 @@
+programa ejercicio3
+
+procesos
+  proceso asignarIds
+  comenzar
+    EnviarMensaje(1, r1)
+    EnviarMensaje(2, r2)
+    EnviarMensaje(3, r3)
+    EnviarMensaje(4, r4)            
+  fin
+  
+  
+  proceso informarGanador
+  variables
+    idMax,idAct,floresMax, floresAct : numero
+  comenzar
+    idMax := 0
+    floresMax := 0
+    repetir 4
+      RecibirMensaje(idAct, *)
+      si (idAct = 1)
+        RecibirMensaje(floresAct,r1)
+      sino
+        si (idAct = 2)
+          RecibirMensaje(floresAct,r2)
+        sino
+          si (idAct = 3)
+            RecibirMensaje(floresAct,r3)
+          sino
+            RecibirMensaje(floresAct,r4)
+      si(floresAct > floresMax)
+        floresMax := floresAct
+        idMax := idAct
+    Informar('el ganador fue r',idMax)    
+        
+  fin
+
+  proceso enviarEsquinas(E avenida : numero; E calle: numero)
+  comenzar
+    EnviarMensaje(avenida, r1)
+    EnviarMensaje(calle, r1)
+    EnviarMensaje(avenida, r2)
+    EnviarMensaje(calle, r2)
+    EnviarMensaje(avenida, r3)
+    EnviarMensaje(calle, r3)
+    EnviarMensaje(avenida, r4)    
+    EnviarMensaje(calle, r4)
+  fin
+
+  proceso generarEsquinaRandom(ES avenida : numero ;ES calle : numero)
+  variables
+    ave : numero
+    cal : numero
+  comenzar
+    Random(ave, 2,10)
+    Random(cal, 2,10)
+    avenida := ave
+    calle := cal
+  fin
+  
+  proceso juntarFlor(ES flores : numero ; ES seguir:  boolean)
+  comenzar
+    si (HayFlorEnLaEsquina)
+      tomarFlor
+      flores := flores + 1
+    sino
+      seguir := F
+  fin
+  
+  
+areas
+  cuadrante : AreaPC (2, 2, 10, 10)
+  areaRF : AreaP (1,1,1,1)
+  areaR1 : AreaP (2,1,2,1)
+  areaR2 : AreaP (3,1,3,1)
+  areaR3 : AreaP (4,1,4,1)
+  areaR4 : AreaP (5,1,5,1)      
+
+robots
+  robot colaborador
+  variables
+    flores : numero
+    id : numero
+    calle : numero
+    avenida : numero
+    calleIni : numero
+    avenidaIni : numero
+    seguir : boolean
+  comenzar
+    flores := 0
+    calleIni := PosCa
+    avenidaIni := PosAv
+    RecibirMensaje(id, rJefe)
+    RecibirMensaje(avenida, rJefe)
+    RecibirMensaje(calle, rJefe)
+    seguir := V
+    mientras(seguir)
+      BloquearEsquina(avenida, calle)
+      Pos(avenida, calle)
+      juntarFlor(flores,seguir)
+      Pos(avenidaIni, calleIni)
+      LiberarEsquina(avenida, calle)      
+    EnviarMensaje(id, rJefe)
+    EnviarMensaje(flores, rJefe)            
+  fin
+  
+  
+  robot jefe
+  variables
+    avenida : numero
+    calle : numero
+  comenzar
+    asignarIds
+    generarEsquinaRandom(avenida,calle)
+    enviarEsquinas(avenida,calle) 
+    informarGanador           
+  fin
+
+
+variables
+  r1, r2, r3, r4 : colaborador
+  rJefe : jefe
+
+
+
+
+comenzar
+  AsignarArea(r1, areaR1)
+  AsignarArea(r2, areaR2)
+  AsignarArea(r3, areaR3)
+  AsignarArea(r4, areaR4)
+  AsignarArea(rJefe, areaRF)  
+  
+  AsignarArea(r1, cuadrante)
+  AsignarArea(r2, cuadrante)
+  AsignarArea(r3, cuadrante)
+  AsignarArea(r4, cuadrante)
+  
+  Iniciar(rJefe, 1,1) 
+  Iniciar(r1, 2,1)      
+  Iniciar(r2, 3,1)      
+  Iniciar(r3, 4,1)      
+  Iniciar(r4, 5,1)                   
+fin
