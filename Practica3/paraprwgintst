@@ -1,0 +1,134 @@
+programa ejercicio1
+
+procesos
+  proceso juntarFlores(ES flores : numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      flores := flores + 1
+  fin
+  
+  
+  proceso juntarPapeles(ES papeles : numero)
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+      papeles := papeles + 1
+  fin
+  
+    
+ 
+ 
+  proceso depositarFlores (ES flores : numero)
+  comenzar
+    mientras(HayFlorEnLaBolsa)
+      depositarFlor
+      flores := flores - 1
+  fin  
+
+  proceso depositarPapeles (ES papeles : numero)
+  comenzar
+    mientras(HayPapelEnLaBolsa)
+      depositarPapel
+      papeles := papeles - 1
+  fin
+  
+areas
+  areaFinal : AreaC (10,10,10,10)
+
+  inicioF1 : AreaP(6,10,6,10)
+  inicioF2 : AreaP(7,10,7,10)
+  areaFloreros : AreaPC ( 1, 1, 5, 10)
+
+  inicioP1 : AreaP(8,10,8,10)
+  inicioP2 : AreaP(9,10,9,10)
+  areaPapeleros : AreaPC ( 6, 1, 10, 9)
+
+
+robots
+  robot robotFlorero
+  variables
+    flores : numero
+    calle : numero
+    avenida : numero
+    aveIni : numero
+    calleIni : numero
+  comenzar
+    flores := 0
+    aveIni := PosAv
+    calleIni := PosCa
+    repetir 5
+      Random(avenida, 1, 5)
+      Random(calle, 1, 10)
+      BloquearEsquina(avenida, calle)
+      Pos(avenida,calle)
+      juntarFlores(flores)
+      Pos(aveIni,calleIni)
+      LiberarEsquina(avenida, calle)
+    BloquearEsquina(10,10)
+    Pos(10,10)
+    depositarFlores(flores)
+    Pos(aveIni, calleIni)
+    LiberarEsquina(10,10)      
+                  
+  fin
+  
+  robot robotPapelero
+  variables
+    papeles : numero
+    calle : numero
+    avenida : numero
+    aveIni : numero
+    calleIni : numero
+  comenzar
+    papeles := 0
+    aveIni := PosAv
+    calleIni := PosCa
+    repetir 3
+      Random(avenida, 6, 10)
+      Random(calle, 1, 9)
+      BloquearEsquina(avenida, calle)
+      Pos(avenida,calle)
+      juntarPapeles(papeles)
+      Pos(aveIni,calleIni)
+      LiberarEsquina(avenida, calle)
+    BloquearEsquina(10,10)
+    Pos(10,10)
+    depositarPapeles(papeles)
+    Pos(aveIni, calleIni)
+    LiberarEsquina(10,10)    
+                  
+  fin
+    
+variables
+  rF1 : robotFlorero    
+  rF2 : robotFlorero     
+
+  rP1 : robotPapelero    
+  rP2 : robotPapelero     
+  
+comenzar
+  AsignarArea(rF1, areaFinal)
+  AsignarArea(rF2, areaFinal)
+  AsignarArea(rP1, areaFinal)
+  AsignarArea(rP2, areaFinal)      
+
+  AsignarArea(rF1, areaFloreros)
+  AsignarArea(rF1, inicioF1)
+  
+  AsignarArea(rF2, areaFloreros)
+  AsignarArea(rF2, inicioF2)
+    
+    
+  AsignarArea(rP1, areaPapeleros)
+  AsignarArea(rP1, inicioP1)
+  
+  AsignarArea(rP2, areaPapeleros)
+  AsignarArea(rP2, inicioP2)    
+
+    
+  Iniciar(rF1, 6,10)
+  Iniciar(rF2, 7,10)
+  Iniciar(rP1, 8,10)
+  Iniciar(rP2, 9,10)  
+fin
